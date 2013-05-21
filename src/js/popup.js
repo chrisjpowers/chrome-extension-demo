@@ -5,7 +5,56 @@
   ImageSaver = angular.module("ImageSaver", ["ng"]);
 
   ImageSaver.controller("Popup", function($scope) {
-    return $scope.name = "World";
+    var sortByWidth;
+    $scope.images = [];
+    sortByWidth = function(collection) {
+      return _(collection).sortBy(function(img) {
+        return -1 * img.width;
+      });
+    };
+    $scope.savedImages = function() {
+      var saved;
+      saved = _($scope.images).select(function(img) {
+        return img.saved;
+      }) || [];
+      return sortByWidth(saved);
+    };
+    $scope.unsavedImages = function() {
+      var out, unsaved;
+      unsaved = _($scope.images).reject(function(img) {
+        return img.saved;
+      }) || [];
+      console.log("before", unsaved);
+      out = sortByWidth(unsaved);
+      console.log("after", out);
+      return out;
+    };
+    $scope.saveImage = function(img) {
+      var payload;
+      img.saved = true;
+      payload = _.extend({}, img, {
+        _action: "saveImage"
+      });
+      return chrome.extension.sendMessage(payload);
+    };
+    $scope.unsaveImage = function(img) {
+      var payload;
+      img.saved = false;
+      payload = _.extend({}, img, {
+        _action: "unsaveImage"
+      });
+      return chrome.extension.sendMessage(payload);
+    };
+    return chrome.extension.sendMessage({
+      _action: "fetchImages"
+    }, function(payload) {
+      var err, images;
+      err = payload[0], images = payload[1];
+      console.log("payload", err, images);
+      return $scope.$apply(function() {
+        return $scope.images = images;
+      });
+    });
   });
 
 }).call(this);

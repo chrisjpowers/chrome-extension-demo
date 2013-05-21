@@ -5,9 +5,28 @@
     <script src="js/vendor/angular.js" type="text/javascript"></script>
     <script src="js/vendor/underscore.js" type="text/javascript"></script>
     <script src="js/popup.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/popup.css" />
   </head>
   <body ng-controller="Popup">
-    <h1>Hello {{ name }}</h1>
+    <h3>Saved Images</h3>
+    <ul id="saved-images">
+      <li ng-repeat="img in savedImages()" ng-include="'image-matte.html'" class="image"></li>
+    </ul>
+    <h3>Unsaved Images</h3>
+    <ul id="unsaved-images">
+      <li ng-repeat="img in unsavedImages()" ng-include="'image-matte.html'" class="image"></li>
+    </ul>
+
+    <script id="image-matte.html" type="text/ng-template">
+      <div class="image-matte">
+        <a ng-href="{{ img.src }}" target="_blank">
+          <img ng-src="{{ img.src }}" width="{{ img.width }}" height="{{ img.height }}" />
+        </a>
+        <ul class="actions">
+          <li ng-hide="img.saved"><a ng-click="saveImage(img)">Save Image</a></li>
+          <li ng-show="img.saved"><a ng-click="unsaveImage(img)">Un-save Image</a></li>
+        </ul>
+      </div>
+    </script>
   </body>
 </html>

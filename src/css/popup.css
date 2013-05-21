@@ -1,0 +1,42 @@
+body {
+  background: #eee;
+}
+
+h3 {
+  clear: both;
+}
+
+#saved-images, #unsaved-images {
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.image {
+  margin-bottom: 10px;
+}
+
+.image-matte {
+  float: left;
+  background: white;
+  padding: 5px;
+  box-shadow: 0 5px 7px #aaa;
+  margin: 20px 10px;
+}
+
+.image-matte img {
+  display: block;
+  border: 1px solid #aaa;
+}
+
+.image-matte .actions {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.image-matte .actions li {
+  display: block;
+  text-align: center;
+  margin: 5px 0;
+}
