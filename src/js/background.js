@@ -57,14 +57,4 @@
     }
   });
 
-  chrome.contextMenus.create({
-    contexts: ["image"],
-    title: "Save Image with App",
-    onclick: function(e, tab) {
-      return saveImage({
-        src: e.srcUrl
-      });
-    }
-  });
-
 }).call(this);

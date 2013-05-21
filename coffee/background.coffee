@@ -35,9 +35,9 @@ chrome.extension.onMessage.addListener (payload, sender, cb) ->
       delete savedImages[payload.src]
       persist()
 
-chrome.contextMenus.create
-  contexts: ["image"]
-  title: "Save Image with App"
-  onclick: (e, tab) ->
-    saveImage
-      src: e.srcUrl
+# chrome.contextMenus.create
+#   contexts: ["image"]
+#   title: "Save Image with App"
+#   onclick: (e, tab) ->
+#     saveImage
+#       src: e.srcUrl
