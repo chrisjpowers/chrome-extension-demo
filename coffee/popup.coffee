@@ -26,6 +26,5 @@ ImageSaver.controller "Popup", ($scope) ->
 
   chrome.extension.sendMessage _action: "fetchImages", (payload) ->
     [err, images] = payload
-    console.log "payload", err, images
     $scope.$apply ->
       $scope.images = images

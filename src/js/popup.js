@@ -47,7 +47,6 @@
     }, function(payload) {
       var err, images;
       err = payload[0], images = payload[1];
-      console.log("payload", err, images);
       return $scope.$apply(function() {
         return $scope.images = images;
       });

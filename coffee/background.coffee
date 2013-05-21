@@ -6,6 +6,11 @@ else
 persist = ->
   localStorage.setItem "savedImages", JSON.stringify(savedImages)
 
+saveImage = (img) ->
+  img.saved = true
+  savedImages[img.src] = img
+  persist()
+
 chrome.extension.onMessage.addListener (payload, sender, cb) ->
   switch payload._action
     when "fetchImages"
@@ -17,7 +22,6 @@ chrome.extension.onMessage.addListener (payload, sender, cb) ->
         else
           chrome.tabs.sendMessage tab.id, _action: "fetchImages", (payload) ->
             [err, pageImages] = payload
-            console.log "hit", pageImages, savedImages
             keys = Object.keys(savedImages)
             pageImages = _(pageImages).reject (img) -> _(keys).include img.src
             pageImages.push(img) for key, img of savedImages
@@ -25,13 +29,15 @@ chrome.extension.onMessage.addListener (payload, sender, cb) ->
       true
 
     when "saveImage"
-      savedImages[payload.src] =
-        src: payload.src
-        width: payload.width
-        height: payload.height
-        saved: true
-      persist()
+      saveImage payload
 
     when "unsaveImage"
       delete savedImages[payload.src]
       persist()
+
+chrome.contextMenus.create
+  contexts: ["image"]
+  title: "Save Image with App"
+  onclick: (e, tab) ->
+    saveImage
+      src: e.srcUrl
