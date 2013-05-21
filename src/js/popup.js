@@ -20,14 +20,11 @@
       return sortByWidth(saved);
     };
     $scope.unsavedImages = function() {
-      var out, unsaved;
+      var unsaved;
       unsaved = _($scope.images).reject(function(img) {
         return img.saved;
       }) || [];
-      console.log("before", unsaved);
-      out = sortByWidth(unsaved);
-      console.log("after", out);
-      return out;
+      return sortByWidth(unsaved);
     };
     $scope.saveImage = function(img) {
       var payload;

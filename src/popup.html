@@ -8,14 +8,18 @@
     <link rel="stylesheet" href="css/popup.css" />
   </head>
   <body ng-controller="Popup">
-    <h3>Saved Images</h3>
-    <ul id="saved-images">
-      <li ng-repeat="img in savedImages()" ng-include="'image-matte.html'" class="image"></li>
-    </ul>
-    <h3>Unsaved Images</h3>
-    <ul id="unsaved-images">
-      <li ng-repeat="img in unsavedImages()" ng-include="'image-matte.html'" class="image"></li>
-    </ul>
+    <div ng-show="savedImages()[0]">
+      <h3>Saved Images</h3>
+      <ul id="saved-images">
+        <li ng-repeat="img in savedImages()" ng-include="'image-matte.html'" class="image"></li>
+      </ul>
+    </div>
+    <div ng-show="unsavedImages()[0]">
+      <h3>Unsaved Images</h3>
+      <ul id="unsaved-images">
+        <li ng-repeat="img in unsavedImages()" ng-include="'image-matte.html'" class="image"></li>
+      </ul>
+    </div>
 
     <script id="image-matte.html" type="text/ng-template">
       <div class="image-matte">

@@ -16,22 +16,32 @@
     switch (payload._action) {
       case "fetchImages":
         chrome.tabs.getSelected(null, function(tab) {
-          return chrome.tabs.sendMessage(tab.id, {
-            _action: "fetchImages"
-          }, function(payload) {
-            var err, img, key, keys, pageImages;
-            err = payload[0], pageImages = payload[1];
-            console.log("hit", pageImages, savedImages);
-            keys = Object.keys(savedImages);
-            pageImages = _(pageImages).reject(function(img) {
-              return _(keys).include(img.src);
-            });
+          var img, key, out;
+          if (/^chrome/.test(tab.url)) {
+            out = [];
             for (key in savedImages) {
               img = savedImages[key];
-              pageImages.push(img);
+              out.push(img);
             }
-            return cb([err, pageImages]);
-          });
+            return cb([null, out]);
+          } else {
+            return chrome.tabs.sendMessage(tab.id, {
+              _action: "fetchImages"
+            }, function(payload) {
+              var err, keys, pageImages;
+              err = payload[0], pageImages = payload[1];
+              console.log("hit", pageImages, savedImages);
+              keys = Object.keys(savedImages);
+              pageImages = _(pageImages).reject(function(img) {
+                return _(keys).include(img.src);
+              });
+              for (key in savedImages) {
+                img = savedImages[key];
+                pageImages.push(img);
+              }
+              return cb([err, pageImages]);
+            });
+          }
         });
         return true;
       case "saveImage":

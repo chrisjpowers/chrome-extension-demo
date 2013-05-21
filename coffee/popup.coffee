@@ -12,10 +12,7 @@ ImageSaver.controller "Popup", ($scope) ->
 
   $scope.unsavedImages = ->
     unsaved = _($scope.images).reject((img) -> img.saved) || []
-    console.log "before", unsaved
-    out = sortByWidth unsaved
-    console.log "after", out
-    out
+    sortByWidth unsaved
 
   $scope.saveImage = (img) ->
     img.saved = true
